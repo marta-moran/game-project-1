@@ -1,16 +1,44 @@
 class Player {
-    constructor(ctx, posX, posY, img) {
+    constructor(ctx, posX, posY, playerImg) {
         this.ctx = ctx
         this.posX = posX
         this.posY = posY
-        this.width = 60
-        this.height = 100
+        this.width = 70 //NO TOCAR O NO SE VE EL PERSONAJEE
+        this.height = 70
+
         this.img = new Image()
-        this.img.src = "../img/cat.png"
+        this.img.src = playerImg
+
+    }
+
+    draw() {
+        this.ctx.drawImage(this.img, this.posX, this.posY, this.width, this.height)
+        // requestAnimationFrame(this.draw)
+    }
+
+    moveRight() {
+        if (this.posX < 530) {
+            this.posX += 10
+        }
+
+    }
+
+    moveLeft() {
+        if (this.posX > 0) {
+            this.posX -= 10
+        }
 
     }
 
     jump() {
 
     }
+
+    fall() {
+        this.posY += this.velY
+        this.velY += this.grav
+
+    }
+
+
 }
