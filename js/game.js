@@ -14,7 +14,7 @@ const game = {
     framesIndex: 0,
     platforms: [],
     canvasSize: {
-        w: 600,
+        w: 800,
         h: 570
     },
 
@@ -38,25 +38,27 @@ const game = {
     start() {
         this.createAll()
 
-        let interval = setInterval(() => {
+        this.interval = setInterval(() => {
             this.framesIndex++
             this.clear()
+            this.clearObstacles()
             this.drawAll()
             this.setEventListeners()
-            // this.player.fall()
+
             this.platforms.forEach(el => el.goDown())
             if (this.framesIndex % 120 === 0) {
                 this.generateObstacles()
             }
+            this.clearObstacles()
 
             this.endGame()
         }, 1000 / this.FPS)
     },
 
     createAll() {
-        this.background = new Background(this.ctx, 600, 570, this.backgroundImage)
-        this.player = new Player(this.ctx, 280, 470, this.playerImage)
-        this.platform = new Platform(this.ctx, 260, 490, this.imagePlatform)
+        this.background = new Background(this.ctx, 800, 570, this.backgroundImage)
+        this.player = new Player(this.ctx, 380, 430, this.playerImage)
+        this.platform = new Platform(this.ctx, 360, 495, this.imagePlatform)
 
         setTimeout(() => {
             this.platforms.push(this.platform)
@@ -72,7 +74,7 @@ const game = {
     },
 
     clear() {
-        this.ctx.clearRect(0, 0, 600, 570)
+        this.ctx.clearRect(0, 0, 800, 570)
 
     },
 
@@ -97,6 +99,11 @@ const game = {
             new Platform(this.ctx, random, 0, "../img/platform.png")
         )
     },
+
+    clearObstacles() {
+        this.platforms = this.platforms.filter(obs => obs.posY <= 570)
+    },
+
 
     endGame() {
         if (this.player.posY > 470) {

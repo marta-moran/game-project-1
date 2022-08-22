@@ -16,7 +16,7 @@ body {
 
 .container {
     display: flex;
-    justify-content: space-evenly
+    justify-content: space-around
 }
 
 h1 {
@@ -48,6 +48,6 @@ p {
 
 #canvas {
     border: 1px solid black;
-    margin-left: -100px;
+    margin-left: -200px;
     margin-top: 40px;
 }

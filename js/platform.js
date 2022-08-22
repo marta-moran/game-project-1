@@ -16,6 +16,7 @@ class Platform {
     }
 
     draw() {
+        //plataformas de distinto tamaño??
         this.ctx.drawImage(this.img, this.posX, this.posY, this.width, this.height)
         // requestAnimationFrame(this.draw)
     }

@@ -3,6 +3,7 @@ class Player {
         this.ctx = ctx
         this.posX = posX
         this.posY = posY
+        this.posY0 = this.posY
         this.width = 70 //NO TOCAR O NO SE VE EL PERSONAJEE
         this.height = 70
 
@@ -10,17 +11,18 @@ class Player {
         this.img.src = playerImg
 
         this.velY = 0.5
-        this.grav = 0.3
+        this.grav = 0.2
 
     }
 
     draw() {
         this.ctx.drawImage(this.img, this.posX, this.posY, this.width, this.height)
         // requestAnimationFrame(this.draw)
+        this.move()
     }
 
     moveRight() {
-        if (this.posX < 530) {
+        if (this.posX < 730) {
             this.posX += 10
         }
 
@@ -34,15 +36,25 @@ class Player {
     }
 
     jump() {
-        this.posY -= 80
-        this.velY -= 15
+        this.posY -= 100
+        this.velY -= 7
     }
 
-    fall() {
-        this.posY += this.velY
-        this.velY += this.grav
-
+    move() {
+        if (this.posY < this.posY0) {   // Está saltando!
+            this.posY += this.velY;
+            this.velY += this.grav;
+        } else {
+            this.posY = this.posY0;
+            this.velY = 1;
+        }
     }
+
+    // fall() {
+    //     this.posY += this.velY
+    //     this.velY += this.grav
+
+    // }
 
 
 }
