@@ -39,56 +39,62 @@ const game = {
         this.createAll()
 
         let interval = setInterval(() => {
-            this.framesIndex +
-                this.clear()
+            this.framesIndex++
+            this.clear()
             this.drawAll()
             this.setEventListeners()
             // this.player.fall()
-            this.platform.goDown()
+            this.platforms.forEach(el => el.goDown())
+            if (this.framesIndex % 120 === 0) {
+                this.generateObstacles()
+            }
 
-            /* this.platform.forEach(elm => elm.draw())
-             if (this.framesIndex % 50 === 0) {
-                 this.generateObstacles()
-             }*/
             this.endGame()
         }, 1000 / this.FPS)
     },
 
     createAll() {
         this.background = new Background(this.ctx, 600, 570, this.backgroundImage)
-        this.player = new Player(this.ctx, 280, 70, this.playerImage)
-        console.log(this.playerImage)   //posY = 470
-        this.platform = new Platform(this.ctx, 100, 400, this.imagePlatform)
+        this.player = new Player(this.ctx, 280, 470, this.playerImage)
+        this.platform = new Platform(this.ctx, 260, 490, this.imagePlatform)
+
+        setTimeout(() => {
+            this.platforms.push(this.platform)
+            console.log(this.platforms)
+        }, 10000)
     },
 
     drawAll() {
         this.background.draw()
         this.player.draw()
         this.platform.draw()
+        this.platforms.forEach(el => el.draw())
     },
 
     clear() {
-        this.ctx.clearRect(0, 0, this.canvasSize.w, this.canvasSize.h)
+        this.ctx.clearRect(0, 0, 600, 570)
 
     },
 
     setEventListeners() {   //cambiar coche por las plataformas
         window.onkeydown = (event) => {
+            console.log(event.key)
             if (event.key === "ArrowRight") {
                 this.player.moveRight();
             }
             if (event.key === "ArrowLeft") {
                 this.player.moveLeft();
             }
-
-
-
+            if (event.key === " ") {
+                this.player.jump();
+            }
         }
     },
 
     generateObstacles() {
+        let random = Math.floor(Math.random() * 480)
         this.platforms.push(
-            new Platform(this.ctx, Math.floor(Math.random() * 300), 0, 200, 10, 10)
+            new Platform(this.ctx, random, 0, "../img/platform.png")
         )
     },
 

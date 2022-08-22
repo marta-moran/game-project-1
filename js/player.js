@@ -9,6 +9,9 @@ class Player {
         this.img = new Image()
         this.img.src = playerImg
 
+        this.velY = 0.5
+        this.grav = 0.3
+
     }
 
     draw() {
@@ -31,7 +34,8 @@ class Player {
     }
 
     jump() {
-
+        this.posY -= 80
+        this.velY -= 15
     }
 
     fall() {

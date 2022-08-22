@@ -12,8 +12,7 @@ class Platform {
 
         this.posY0 = this.posY;
 
-        this.velY = 1;
-        this.gravity = 0.4;
+
     }
 
     draw() {
@@ -22,7 +21,7 @@ class Platform {
     }
 
     goDown() {
-        this.posY += 1
+        this.posY += 0.8
     }
 
 
