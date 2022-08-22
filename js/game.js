@@ -8,14 +8,15 @@ const game = {
     ctx: undefined,
 
     canvasSize: {
-        w: 700,
-        h: 600
+        w: 600,
+        h: 570
     },
 
     init(id) {
         this.canvasDom = document.querySelector(id)
         this.ctx = this.canvasDom.getContext('2d')
         this.setDimensions(id)
+        // this.getCharacter()
         // this.setEventListeners()
         // this.createAll()
         // this.drawAll()
@@ -27,6 +28,14 @@ const game = {
             h: document.querySelector(canvasId).setAttribute('height', this.canvasSize.h)
         }
     },
+
+    /* getCharacter() {
+         document.addEventListener('click', () => {
+             let img = document.querySelector('img').value
+             localStorage.setItem("character", img);
+             console.log(localStorage)
+         })
+     } */
 
     /* setEventListeners() {   //cambiar coche por las plataformas
          window.onkeydown = (event) => {

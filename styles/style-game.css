@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&family=Silkscreen:wght@400;700&display=swap');
+
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+
+}
+
+body {
+    font-family: 'Silkscreen', cursive;
+    background: rgb(245, 221, 210);
+    background: linear-gradient(90deg, rgba(245, 221, 210, 1) 0%, rgba(248, 209, 255, 1) 13%, rgb(175, 217, 238) 100%);
+}
+
+.container {
+    display: flex;
+    justify-content: space-evenly
+}
+
+h1 {
+    font-size: 45px;
+    font-weight: 700;
+
+}
+
+p {
+    font-size: 25px;
+    font-family: 'Indie Flower', cursive;
+}
+
+.container>section {
+    width: 35%;
+
+}
+
+.container div {
+    display: flex;
+    justify-content: space-around;
+}
+
+.container img {
+    margin-top: 30px;
+    width: 40%;
+
+}
+
+#canvas {
+    border: 1px solid black;
+    margin-left: -100px;
+    margin-top: 40px;
+}

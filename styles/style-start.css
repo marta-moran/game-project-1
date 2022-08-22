@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&family=Silkscreen:wght@400;700&display=swap');
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+
+}
+
+body {
+    font-family: 'Silkscreen', cursive;
+    background-image: url("../img/fondo3.jpg");
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+
+h1 {
+    font-size: 55px;
+    font-weight: 700;
+    text-align: center;
+    margin-top: 80px;
+
+}
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.main-content img {
+    margin-top: 50px;
+    width: 20%;
+}
+
+.main-content img:hover {
+    background-color: rgba(255, 255, 255, 0.448);
+}
+
+a,
+a:link,
+a:visited {
+    text-decoration: none;
+    color: black;
+}
+
+
+.btn {
+    padding: 20px;
+    font-size: 40px;
+    background-color: blueviolet;
+    border: 4px solid black;
+    border-radius: 10px;
+    margin-top: 90px;
+}

@@ -5,12 +5,43 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/style-start.css">
     <title>Document</title>
 </head>
 
 <body>
+    <h1>Juegooooo</h1>
+    <section class="main-content">
+        <section class="characters">
+            <div>
+                <img src="../img/cat.png">
+                <!-- <img src="../img/hamster.png"> -->
+            </div>
+        </section>
+        <div class="btn">
+            <a href="index-juego.html">Jugar</a>
+        </div>
+    </section>
+    <script>
 
-    <a href="index-juego.html">Jugar</a>
+        function getCharacter() {
+            localStorage.clear();
+            let imgs = document.querySelectorAll('img')
+
+            for (let i = 0; i < imgs.length; i++) {
+
+                imgs[i].addEventListener('click', () => {
+                    let info = imgs[i].getAttribute('src')
+                    localStorage.setItem("character", info);
+                    console.log(localStorage)
+
+                })
+            }
+        }
+
+        getCharacter()
+
+    </script>
 </body>
 
 </html>
