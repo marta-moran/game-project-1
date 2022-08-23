@@ -51,3 +51,24 @@ p {
     margin-left: -200px;
     margin-top: 40px;
 }
+
+.container span {
+    font-size: 40px;
+}
+
+.bottom-content {
+    display: flex;
+    align-items: flex-end;
+}
+
+.lifes-section>section {
+    margin-left: -125px;
+}
+
+.lifes-section img {
+    width: 10%;
+}
+
+.chrono {
+    margin-left: -100px;
+}

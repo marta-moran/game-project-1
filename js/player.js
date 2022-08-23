@@ -10,9 +10,12 @@ class Player {
         this.img = new Image()
         this.img.src = playerImg
 
+        this.canJump = false
         this.velY = 0.5
         this.velX = 0
         this.grav = 0.2
+
+        this.fall = false
         this.keyRightPressed = false
         this.keyLeftPressed = false
         // this.keyUpPressed = false
@@ -22,8 +25,9 @@ class Player {
     draw() {
         this.ctx.drawImage(this.img, this.posX, this.posY, this.width, this.height)
         // requestAnimationFrame(this.draw)
-        this.move()
+        this.gravity()
     }
+
 
     update() {
         if (this.keyLeftPressed) {
@@ -32,11 +36,14 @@ class Player {
         if (this.keyRightPressed) {
             this.moveRight()
         }
+        // if (this.canJump) {
+        //     this.jump()
+        // }
 
     }
 
     moveRight() {
-        if (this.posX < 730) {
+        if (this.posX < 630) {
             this.posX += 5
         }
 
@@ -54,30 +61,29 @@ class Player {
         this.velY -= 7
     }
 
-    move() {
-        if (this.posY < 700) {   // Está saltando!
+    gravity() {
+        if (this.posY < 700) {
             this.posY += this.velY;
             this.velY += this.grav;
-            // } else {
-            // this.posY = this.posY0;
-            // this.velY = 1;
         }
     }
 
-    // bottom() {
-    //     return this.posY + this.height
-    // }
+    fallFunction() {
+        if (this.posY > 600) {
+            this.fall = true
+        }
 
-    // isColision(platform) {
+        return this.fall
+    }
 
-    //     return !(this.bottom() < platform.top())
-    // }
+    restart() {
+        setTimeout(() => {
+            this.fall = false
+        }, 1000)
+        this.posY = 20
+        this.posX = 330
 
-    // fall() {
-    //     this.posY += this.velY
-    //     this.velY += this.grav
-
-    // }
-
+        // this.platforms.push(this.platform5 = new Platform(this.ctx, 360, 150, this.imagePlatform))
+    }
 
 }

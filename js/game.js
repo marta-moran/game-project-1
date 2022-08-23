@@ -13,10 +13,14 @@ const game = {
     imagePlatform: "../img/platform.png",
     framesIndex: 0,
     platforms: [],
+    canJump: false,
+    lifes: [],
     canvasSize: {
-        w: 800,
+        w: 700,
         h: 570
     },
+
+
 
 
     init(id) {
@@ -35,6 +39,8 @@ const game = {
         }
     },
 
+
+
     start() {
         this.createAll()
 
@@ -47,12 +53,25 @@ const game = {
             this.setEventListeners()
             this.player.update()
             this.platforms.forEach(el => el.goDown())
+            this.player.fallFunction()
+            if (this.player.fall) {
+                this.player.restart()
 
+                if (this.framesIndex % 7 === 0) {
+                    this.player.width = 0
+                    this.player.height = 0
+                } else {
+                    this.player.width = 70
+                    this.player.height = 70
+                }
+
+                // console.log(this.lifes[0])
+                //vidaas
+            }
+
+            // this.player.fall()
             this.isCollision()
             if (this.framesIndex % 120 === 0) {
-
-                console.log('DESDE LA GENERACION DE OBS-->', this.player.velY)
-
                 this.generateObstacles()
             }
             this.clearObstacles()
@@ -63,13 +82,15 @@ const game = {
 
     createAll() {
         this.background = new Background(this.ctx, 800, 570, this.backgroundImage)
-        this.player = new Player(this.ctx, 380, 430, this.playerImage)
-        this.platform = new Platform(this.ctx, 360, 495, this.imagePlatform)
+        this.player = new Player(this.ctx, 380, 410, this.playerImage)
+        this.platform = new Platform(this.ctx, 360, 485, this.imagePlatform)
+        this.platform1 = new Platform(this.ctx, 200, 295, this.imagePlatform)
+        this.platform2 = new Platform(this.ctx, 100, 100, this.imagePlatform)
+        this.platform3 = new Platform(this.ctx, 300, 20, this.imagePlatform)
 
-        setTimeout(() => {
-            this.platforms.push(this.platform)
-            console.log(this.platforms)
-        }, 10000)
+
+        this.platforms.push(this.platform, this.platform1, this.platform2, this.platform3)
+
     },
 
     drawAll() {
@@ -95,8 +116,9 @@ const game = {
             if (event.key === "ArrowLeft") {
                 this.player.keyLeftPressed = true
             }
-            if (event.key === " ") {
+            if (event.key === " " && this.canJump) {
                 this.player.jump()
+                this.canJump = false
             }
 
             //asignar booleano a true. Arriba llamar a las funciones de movimiento solo cuando sea true
@@ -111,11 +133,15 @@ const game = {
             if (event.key === "ArrowLeft") {
                 this.player.keyLeftPressed = false
             }
+            // if (event.key === " " e) {
+            //     this.player.canJump = false
+
+            // }
         }
     },
 
     generateObstacles() {
-        let random = Math.floor(Math.random() * 480)
+        let random = Math.floor(Math.random() * 440)
         this.platforms.push(
             new Platform(this.ctx, random, 0, "../img/platform.png")
         )
@@ -133,22 +159,26 @@ const game = {
         //     this.player.height + this.player.posY > platform.posY)) {
         //     this.player.velY = 10
         // }
+
         this.platforms.forEach((platform) => {
+
             if (this.player.posY + this.player.height <= platform.posY
                 && this.player.posY + this.player.height + this.player.velY >= platform.posY
-                && this.player.posX + this.player.width > platform.posX
-                && this.player.posX < platform.posX + platform.width) {
+                && this.player.posX + this.player.width - 20 > platform.posX
+                && this.player.posX + 20 < platform.posX + platform.width) {
                 this.player.velY = 0
+                this.canJump = true
             }
-            // else this.player.velY = 0.8
+
         })
     },
-    endGame() {
+    /*endGame() {
         if (this.player.posY > 470) {
             clearInterval(this.interval)
             this.clear()
+
         }
-    },
+    },*/
 
 
 
