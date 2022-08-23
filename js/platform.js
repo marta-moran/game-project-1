@@ -25,6 +25,10 @@ class Platform {
         this.posY += 0.8
     }
 
+    // top() {
+    //     return this.posY
+    // }
+
 
 
 

@@ -32,6 +32,8 @@ h1 {
 .main-content img {
     margin-top: 50px;
     width: 15%;
+    /* padding: 10px;  meter la imagen dentro de un div y aplicar estos estilos a eso */
+    /* border-radius: 50% */
 }
 
 .main-content img:hover {

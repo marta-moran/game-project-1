@@ -39,19 +39,24 @@ const game = {
         this.createAll()
 
         this.interval = setInterval(() => {
+            console.log(this.player.velY)
             this.framesIndex++
             this.clear()
             this.clearObstacles()
             this.drawAll()
             this.setEventListeners()
-
             this.platforms.forEach(el => el.goDown())
+            // this.platforms.forEach(el => this.player.isCollision(el))
+            this.isCollision()
             if (this.framesIndex % 120 === 0) {
+
+                console.log('DESDE LA GENERACION DE OBS-->', this.player.velY)
+
                 this.generateObstacles()
             }
             this.clearObstacles()
 
-            this.endGame()
+            // this.endGame()
         }, 1000 / this.FPS)
     },
 
@@ -78,9 +83,8 @@ const game = {
 
     },
 
-    setEventListeners() {   //cambiar coche por las plataformas
+    setEventListeners() {
         window.onkeydown = (event) => {
-            console.log(event.key)
             if (event.key === "ArrowRight") {
                 this.player.moveRight();
             }
@@ -90,6 +94,12 @@ const game = {
             if (event.key === " ") {
                 this.player.jump();
             }
+
+            //asignar booleano a true. Arriba llamar a las funciones de movimiento solo cuando sea true
+        }
+
+        window.onkeyup = (event) => {
+            // mismo que arriba y asignar false
         }
     },
 
@@ -104,7 +114,24 @@ const game = {
         this.platforms = this.platforms.filter(obs => obs.posY <= 570)
     },
 
+    isCollision() { //para coger objetos misma funcion con this.objects.splice(index, 1)
 
+        // if (!(this.player.posX < platform.posX + platform.width &&
+        //     this.player.posX + this.player.width > platform.posX &&
+        //     this.player.posY < platform.posY + platform.height &&
+        //     this.player.height + this.player.posY > platform.posY)) {
+        //     this.player.velY = 10
+        // }
+        this.platforms.forEach((platform) => {
+            if (this.player.posY + this.player.height <= platform.posY
+                && this.player.posY + this.player.height + this.player.velY >= platform.posY
+                && this.player.posX + this.player.width > platform.posX
+                && this.player.posX < platform.posX + platform.width) {
+                this.player.velY = 0
+            }
+            // else this.player.velY = 0.8
+        })
+    },
     endGame() {
         if (this.player.posY > 470) {
             clearInterval(this.interval)

@@ -3,7 +3,7 @@ class Player {
         this.ctx = ctx
         this.posX = posX
         this.posY = posY
-        this.posY0 = this.posY
+        // this.posY0 = this.posY
         this.width = 70 //NO TOCAR O NO SE VE EL PERSONAJEE
         this.height = 70
 
@@ -11,6 +11,7 @@ class Player {
         this.img.src = playerImg
 
         this.velY = 0.5
+        this.velX = 0
         this.grav = 0.2
 
     }
@@ -41,14 +42,23 @@ class Player {
     }
 
     move() {
-        if (this.posY < this.posY0) {   // Está saltando!
+        if (this.posY < 700) {   // Está saltando!
             this.posY += this.velY;
             this.velY += this.grav;
-        } else {
-            this.posY = this.posY0;
-            this.velY = 1;
+            // } else {
+            // this.posY = this.posY0;
+            // this.velY = 1;
         }
     }
+
+    // bottom() {
+    //     return this.posY + this.height
+    // }
+
+    // isColision(platform) {
+
+    //     return !(this.bottom() < platform.top())
+    // }
 
     // fall() {
     //     this.posY += this.velY
