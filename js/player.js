@@ -13,6 +13,9 @@ class Player {
         this.velY = 0.5
         this.velX = 0
         this.grav = 0.2
+        this.keyRightPressed = false
+        this.keyLeftPressed = false
+        // this.keyUpPressed = false
 
     }
 
@@ -22,16 +25,26 @@ class Player {
         this.move()
     }
 
+    update() {
+        if (this.keyLeftPressed) {
+            this.moveLeft()
+        }
+        if (this.keyRightPressed) {
+            this.moveRight()
+        }
+
+    }
+
     moveRight() {
         if (this.posX < 730) {
-            this.posX += 10
+            this.posX += 5
         }
 
     }
 
     moveLeft() {
         if (this.posX > 0) {
-            this.posX -= 10
+            this.posX -= 5
         }
 
     }

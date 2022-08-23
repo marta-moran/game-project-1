@@ -39,14 +39,15 @@ const game = {
         this.createAll()
 
         this.interval = setInterval(() => {
-            console.log(this.player.velY)
+
             this.framesIndex++
             this.clear()
             this.clearObstacles()
             this.drawAll()
             this.setEventListeners()
+            this.player.update()
             this.platforms.forEach(el => el.goDown())
-            // this.platforms.forEach(el => this.player.isCollision(el))
+
             this.isCollision()
             if (this.framesIndex % 120 === 0) {
 
@@ -84,15 +85,18 @@ const game = {
     },
 
     setEventListeners() {
+
         window.onkeydown = (event) => {
+
             if (event.key === "ArrowRight") {
-                this.player.moveRight();
+                this.player.keyRightPressed = true
+
             }
             if (event.key === "ArrowLeft") {
-                this.player.moveLeft();
+                this.player.keyLeftPressed = true
             }
             if (event.key === " ") {
-                this.player.jump();
+                this.player.jump()
             }
 
             //asignar booleano a true. Arriba llamar a las funciones de movimiento solo cuando sea true
@@ -100,6 +104,13 @@ const game = {
 
         window.onkeyup = (event) => {
             // mismo que arriba y asignar false
+
+            if (event.key === "ArrowRight") {
+                this.player.keyRightPressed = false
+            }
+            if (event.key === "ArrowLeft") {
+                this.player.keyLeftPressed = false
+            }
         }
     },
 
