@@ -11,8 +11,6 @@ class Platform {
 
         this.width = 120
         this.height = 60
-
-        this.posY0 = this.posY;
     }
 
     draw() {

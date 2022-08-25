@@ -17,8 +17,13 @@ const game = {
     canPlay: true,
     imagePlatform: "../img/platform.png",
     framesIndex: 0,
-    platforms: [],
     canJump: false,
+
+    platforms: [],
+    flowers: [],
+
+    flowersCounter: 0,
+    platformsCounter: 0,
     lifes: document.querySelectorAll('.life'),
     canvasSize: {
         w: 700,
@@ -52,12 +57,18 @@ const game = {
             this.framesIndex++
             // if(this.framesIndex === 60) secs ++
             this.clear()
-            this.clearObstacles()
+            this.clearObstacles(this.platforms)
+            this.clearObstacles(this.flowers)
             this.drawAll()
             this.setEventListeners()
             this.player.update()
             this.platforms.forEach(platform => platform.goDown())
+            this.flowers.forEach(flower => flower.goDown())
             this.player.fall()
+            this.isCollision()
+            this.isCollisionFlower()
+            this.addFlowers()
+
             if (this.player.isFalling) {
                 this.player.restart()
                 this.removeLifes()
@@ -70,10 +81,13 @@ const game = {
                 }
             }
 
-            this.isCollision()
-
             if (this.framesIndex % 120 === 0) {
                 this.generateObstacles()
+
+            }
+            if (this.framesIndex % 200 === 0) {
+                this.generateFlowers()
+
             }
             this.endGame()
         }, 1000 / this.FPS)
@@ -97,6 +111,7 @@ const game = {
         this.player.draw()
         this.platform.draw()
         this.platforms.forEach(platform => platform.draw())
+        this.flowers.forEach(flower => flower.draw())
     },
 
     clear() {
@@ -120,7 +135,6 @@ const game = {
             }
         }
 
-        // DESTRUCTURAR PROPIEDAD KEY
         window.onkeyup = ({ key }) => {
 
             if (key === "ArrowRight") {
@@ -137,23 +151,21 @@ const game = {
         this.platforms.push(
             new Platform(this.ctx, random, 0, "../img/platform.png")
         )
-
-
+        this.platformsCounter++
     },
 
-    clearObstacles() {
-        this.platforms = this.platforms.filter(obs => obs.posY <= 570)
+    generateFlowers() {
+        let random = Math.floor(Math.random() * 440)
+        this.flowers.push(
+            new Flower(this.ctx, random, 0, "../img/flower.png")
+        )
     },
 
-    isCollision() { //para coger objetos misma funcion con this.objects.splice(index, 1)
+    clearObstacles(itemArr) {
+        itemArr = itemArr.filter(obs => obs.posY <= 570)
+    },
 
-        // if (!(this.player.posX < platform.posX + platform.width &&
-        //     this.player.posX + this.player.width > platform.posX &&
-        //     this.player.posY < platform.posY + platform.height &&
-        //     this.player.height + this.player.posY > platform.posY)) {
-        //     this.player.velY = 10
-        // }
-
+    isCollision() {
         this.platforms.forEach((platform) => {
 
             if (this.player.posY + this.player.height <= platform.posY
@@ -162,6 +174,18 @@ const game = {
                 && this.player.posX + 20 < platform.posX + platform.width) {
                 this.player.velY = 0
                 this.canJump = true
+            }
+        })
+    },
+
+    isCollisionFlower() {
+        this.flowers.forEach((flowers, index) => {
+            if (this.player.posX < flowers.posX + flowers.width &&
+                this.player.posX + this.player.width > flowers.posX &&
+                this.player.posY < flowers.posY + flowers.height &&
+                this.player.height + this.player.posY > flowers.posY) {
+                this.flowers.splice(index, 1)
+                this.flowersCounter++
             }
         })
     },
@@ -178,6 +202,14 @@ const game = {
         }
     },
 
+    addFlowers() {
+        const span = document.querySelector("#flower-counter")
+
+        console.log(span)
+
+        span.textContent = "X" + this.flowersCounter
+    },
+
     endGame() {
         if (this.player.lifesCounter === 0) {
             clearInterval(this.interval)
@@ -187,22 +219,17 @@ const game = {
 
             this.ctx.font = '30px Silkscreen';
             this.ctx.fillStyle = 'yellow'
-            this.ctx.fillText("redirigiendo...", 130, 450)
+            this.ctx.fillText("redirigiendo...", 140, 450)
 
             this.ctx.fillStyle = 'black'
             this.ctx.font = '70px Silkscreen';
-            this.ctx.fillText("GAME OVER", 130, 300)
+            this.ctx.fillText("GAME OVER", 90, 300)
 
 
             setTimeout(() => {
                 location.href = "../vistas/index.html"
-
+                console.log(contador)
             }, 10000)
-
-            // alert("has perdidoooooooooooo")
-            // this.chronometer.stop()
-            // location.href = "../vistas/index.html"
-
         }
     }
 }

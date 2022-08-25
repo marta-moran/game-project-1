@@ -1,15 +1,17 @@
-class Goal extends Platform {
+class Flower {
     constructor(ctx, posX, posY, img) {
-        super(ctx, posX, posY, velY)
+
+        this.ctx = ctx
+        this.posX = posX
+        this.posY = posY
+
         this.img = new Image()
         this.img.src = img
 
-        this.velY = 1.5
+        this.velY = 1
 
-        this.width = 120
-        this.height = 60
-
-        this.posY0 = this.posY;
+        this.width = 40
+        this.height = 40
     }
 
     draw() {

@@ -66,7 +66,18 @@ p {
     display: flex;
     align-items: flex-start;
     justify-content: space-around;
+    margin-left: -150px;
 }
+
+.flower {
+    width: 25%;
+    margin-top: 7px;
+}
+
+.flower img {
+    width: 27%;
+}
+
 
 .lifes-section img {
     width: 40px
