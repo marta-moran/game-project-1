@@ -4,33 +4,34 @@ const game = {
     author: 'Marta && Lenis',
     license: undefined,
     version: '1.0.0',
+
     canvasDom: undefined,
     ctx: undefined,
     FPS: 60,
     background: undefined,
     backgroundImage: "../img/fondo4.jpg",
+    image: new Image(),
+    src: "../img/fondo3.jpg",
     playerImage: localStorage.getItem('character'),
+    characterIsSelected: false,
+    canPlay: true,
     imagePlatform: "../img/platform.png",
     framesIndex: 0,
     platforms: [],
     canJump: false,
-    lifes: [],
+    lifes: document.querySelectorAll('.life'),
     canvasSize: {
         w: 700,
         h: 570
     },
-
-
-
 
     init(id) {
         this.canvasDom = document.querySelector(id)
         this.ctx = this.canvasDom.getContext('2d')
         this.setDimensions(id)
         this.start()
-        // this.setEventListeners()
-
     },
+
 
     setDimensions(canvasId) {
         this.canvasSize = {
@@ -39,104 +40,95 @@ const game = {
         }
     },
 
-
+    play() {
+        if (this.characterIsSelected) {
+            location.href = "../vistas/index-juego.html"
+        }
+    },
 
     start() {
         this.createAll()
-
         this.interval = setInterval(() => {
-
             this.framesIndex++
+            // if(this.framesIndex === 60) secs ++
             this.clear()
             this.clearObstacles()
             this.drawAll()
             this.setEventListeners()
             this.player.update()
-            this.platforms.forEach(el => el.goDown())
-            this.player.fallFunction()
-            if (this.player.fall) {
+            this.platforms.forEach(platform => platform.goDown())
+            this.player.fall()
+            if (this.player.isFalling) {
                 this.player.restart()
-
-                if (this.framesIndex % 7 === 0) {
+                this.removeLifes()
+                if (this.framesIndex % 6 === 0) {
                     this.player.width = 0
                     this.player.height = 0
                 } else {
                     this.player.width = 70
                     this.player.height = 70
                 }
-
-                // console.log(this.lifes[0])
-                //vidaas
             }
 
-            // this.player.fall()
             this.isCollision()
+
             if (this.framesIndex % 120 === 0) {
                 this.generateObstacles()
             }
-            this.clearObstacles()
-
-            // this.endGame()
+            this.endGame()
         }, 1000 / this.FPS)
     },
 
     createAll() {
         this.background = new Background(this.ctx, 800, 570, this.backgroundImage)
-        this.player = new Player(this.ctx, 380, 410, this.playerImage)
-        this.platform = new Platform(this.ctx, 360, 485, this.imagePlatform)
+
+        this.player = new Player(this.ctx, 380, 310, this.playerImage)
+
+        this.platform = new Platform(this.ctx, 360, 385, this.imagePlatform)
         this.platform1 = new Platform(this.ctx, 200, 295, this.imagePlatform)
         this.platform2 = new Platform(this.ctx, 100, 100, this.imagePlatform)
         this.platform3 = new Platform(this.ctx, 300, 20, this.imagePlatform)
 
-
         this.platforms.push(this.platform, this.platform1, this.platform2, this.platform3)
-
     },
 
     drawAll() {
         this.background.draw()
         this.player.draw()
         this.platform.draw()
-        this.platforms.forEach(el => el.draw())
+        this.platforms.forEach(platform => platform.draw())
     },
 
     clear() {
         this.ctx.clearRect(0, 0, 800, 570)
-
     },
 
     setEventListeners() {
 
-        window.onkeydown = (event) => {
+        window.onkeydown = ({ key }) => {
 
-            if (event.key === "ArrowRight") {
+            if (key === "ArrowRight") {
                 this.player.keyRightPressed = true
 
             }
-            if (event.key === "ArrowLeft") {
+            if (key === "ArrowLeft") {
                 this.player.keyLeftPressed = true
             }
-            if (event.key === " " && this.canJump) {
+            if (key === " " && this.canJump) {
                 this.player.jump()
                 this.canJump = false
             }
-
-            //asignar booleano a true. Arriba llamar a las funciones de movimiento solo cuando sea true
         }
 
-        window.onkeyup = (event) => {
-            // mismo que arriba y asignar false
+        // DESTRUCTURAR PROPIEDAD KEY
+        window.onkeyup = ({ key }) => {
 
-            if (event.key === "ArrowRight") {
+            if (key === "ArrowRight") {
                 this.player.keyRightPressed = false
             }
-            if (event.key === "ArrowLeft") {
+            if (key === "ArrowLeft") {
                 this.player.keyLeftPressed = false
             }
-            // if (event.key === " " e) {
-            //     this.player.canJump = false
-
-            // }
         }
     },
 
@@ -145,6 +137,8 @@ const game = {
         this.platforms.push(
             new Platform(this.ctx, random, 0, "../img/platform.png")
         )
+
+
     },
 
     clearObstacles() {
@@ -169,18 +163,46 @@ const game = {
                 this.player.velY = 0
                 this.canJump = true
             }
-
         })
     },
-    /*endGame() {
-        if (this.player.posY > 470) {
+
+    removeLifes() {
+        if (this.player.lifesCounter === 2) {
+            this.lifes[2].remove()
+        }
+        else if (this.player.lifesCounter === 1) {
+            this.lifes[1].remove()
+        }
+        else if (this.player.lifesCounter === 0) {
+            this.lifes[0].remove()
+        }
+    },
+
+    endGame() {
+        if (this.player.lifesCounter === 0) {
             clearInterval(this.interval)
-            this.clear()
+
+            this.ctx.fillStyle = 'blueviolet'
+            this.ctx.fillRect(0, 0, 700, 570);
+
+            this.ctx.font = '30px Silkscreen';
+            this.ctx.fillStyle = 'yellow'
+            this.ctx.fillText("redirigiendo...", 130, 450)
+
+            this.ctx.fillStyle = 'black'
+            this.ctx.font = '70px Silkscreen';
+            this.ctx.fillText("GAME OVER", 130, 300)
+
+
+            setTimeout(() => {
+                location.href = "../vistas/index.html"
+
+            }, 10000)
+
+            // alert("has perdidoooooooooooo")
+            // this.chronometer.stop()
+            // location.href = "../vistas/index.html"
 
         }
-    },*/
-
-
-
-
+    }
 }

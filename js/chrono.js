@@ -32,6 +32,12 @@ class Chronometer {
             return value.toString()
         }
     }
+
+
+    stop() {
+        clearInterval(this.intervalId)
+    }
+
 }
 
 
@@ -39,7 +45,7 @@ const chronometer = new Chronometer();
 
 let canStart = true
 
-const btnLeft = document.getElementById('btnLeft');
+const btnStart = document.getElementById('btnStart');
 
 let minDec = document.getElementById('minDec');
 let minUni = document.getElementById('minUni');
@@ -63,7 +69,7 @@ function printSeconds() {
     secDec.innerHTML = chronometer.computeTwoDigitNumber(chronometer.getSeconds())[0];
 }
 
-btnLeft.addEventListener('click', () => {
+btnStart.addEventListener('click', () => {
     if (canStart) {
         chronometer.start(printTime);
         canStart = false
