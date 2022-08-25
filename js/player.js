@@ -4,7 +4,7 @@ class Player {
         this.posX = posX
         this.posY = posY
 
-        this.width = 70 //NO TOCAR O NO SE VE EL PERSONAJEE
+        this.width = 70
         this.height = 70
 
         this.img = new Image()
@@ -68,7 +68,6 @@ class Player {
     }
 
     restart() {
-
         setTimeout(() => {
             this.isFalling = false
         }, 1000)

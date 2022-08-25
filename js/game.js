@@ -228,7 +228,6 @@ const game = {
             this.platform.velY = 5
             this.generateObstacles()
         }
-
     },
 
     endGame() {

@@ -11,7 +11,6 @@ class Background {
         this.image.src = image
     }
 
-
     draw() {
         this.ctx.drawImage(this.image, this.posX, this.posY, this.width, this.height)
     }
