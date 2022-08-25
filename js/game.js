@@ -7,21 +7,27 @@ const game = {
 
     canvasDom: undefined,
     ctx: undefined,
-    FPS: 60,
+
     background: undefined,
     backgroundImage: "../img/fondo4.jpg",
     image: new Image(),
     src: "../img/fondo3.jpg",
     playerImage: localStorage.getItem('character'),
+    imagePlatform: "../img/platform.png",
+
     characterIsSelected: false,
     canPlay: true,
-    imagePlatform: "../img/platform.png",
-    framesIndex: 0,
     canJump: false,
+    dead: false,
+
+    FPS: 60,
+    framesIndex: 0,
 
     platforms: [],
     flowers: [],
 
+    endGameCounter: 0,
+    endGameTimer: 11,
     flowersCounter: 0,
     platformsCounter: 0,
     lifes: document.querySelectorAll('.life'),
@@ -55,7 +61,6 @@ const game = {
         this.createAll()
         this.interval = setInterval(() => {
             this.framesIndex++
-            // if(this.framesIndex === 60) secs ++
             this.clear()
             this.clearObstacles(this.platforms)
             this.clearObstacles(this.flowers)
@@ -68,23 +73,21 @@ const game = {
             this.isCollision()
             this.isCollisionFlower()
             this.addFlowers()
+            this.addDifficulty()
 
             if (this.player.isFalling) {
                 this.player.restart()
                 this.removeLifes()
-                if (this.framesIndex % 6 === 0) {
-                    this.player.width = 0
-                    this.player.height = 0
-                } else {
-                    this.player.width = 70
-                    this.player.height = 70
-                }
+                /* if (this.framesIndex % 6 === 0) {
+                     this.player.width = 0
+                     this.player.height = 0
+                     
+                 } else {
+                     this.player.width = 70
+                     this.player.height = 70
+                 }*/
             }
 
-            if (this.framesIndex % 120 === 0) {
-                this.generateObstacles()
-
-            }
             if (this.framesIndex % 200 === 0) {
                 this.generateFlowers()
 
@@ -199,37 +202,59 @@ const game = {
         }
         else if (this.player.lifesCounter === 0) {
             this.lifes[0].remove()
+            this.dead = true
         }
     },
 
     addFlowers() {
         const span = document.querySelector("#flower-counter")
 
-        console.log(span)
-
         span.textContent = "X" + this.flowersCounter
+    },
+
+    addDifficulty() {
+        if (this.platformsCounter < 5 && this.framesIndex % 160 === 0) {
+            this.generateObstacles()
+        }
+        if (this.platformsCounter < 10 && this.framesIndex % 140 === 0) {
+            this.platform.velY = 2
+            this.generateObstacles()
+        }
+        if (this.platformsCounter >= 10 && this.framesIndex % 120 === 0) {
+            this.platform.velY = 5
+            this.generateObstacles()
+        }
+
     },
 
     endGame() {
         if (this.player.lifesCounter === 0) {
             clearInterval(this.interval)
 
-            this.ctx.fillStyle = 'blueviolet'
-            this.ctx.fillRect(0, 0, 700, 570);
+            this.intervalEnd = setInterval(() => {
+                this.endGameTimer--
+                this.endGameCounter++
+                this.clear()
 
-            this.ctx.font = '30px Silkscreen';
-            this.ctx.fillStyle = 'yellow'
-            this.ctx.fillText("redirigiendo...", 140, 450)
+                this.ctx.fillStyle = 'blueviolet'
+                this.ctx.fillRect(0, 0, 700, 570);
 
-            this.ctx.fillStyle = 'black'
-            this.ctx.font = '70px Silkscreen';
-            this.ctx.fillText("GAME OVER", 90, 300)
+                this.ctx.fillStyle = 'black'
+                this.ctx.font = '70px Silkscreen';
+                this.ctx.fillText("GAME OVER", 110, 250)
 
+                this.ctx.font = '25px Silkscreen';
+                this.ctx.fillStyle = 'pink'
+                this.ctx.fillText("Redirigiendo a la página principal", 75, 355)
 
-            setTimeout(() => {
-                location.href = "../vistas/index.html"
-                console.log(contador)
-            }, 10000)
+                this.ctx.font = '35px Silkscreen';
+                this.ctx.fillStyle = 'black'
+                this.ctx.fillText(`${this.endGameTimer}`, 330, 430)
+
+                if (this.endGameTimer === 0) {
+                    location.href = "../vistas/index.html"
+                }
+            }, 1000)
         }
     }
 }

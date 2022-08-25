@@ -12,11 +12,16 @@ class Chronometer {
             } else {
                 this.currentTime++
             }
+
+
+            if (game.dead) {
+                console.log(printTime())
+                clearInterval(this.intervalId)
+            }
         }, 1000)
     }
 
     getMinutes() {
-
         return Math.floor(this.currentTime / 60)
     }
 
@@ -32,14 +37,7 @@ class Chronometer {
             return value.toString()
         }
     }
-
-
-    stop() {
-        clearInterval(this.intervalId)
-    }
-
 }
-
 
 const chronometer = new Chronometer();
 
@@ -56,7 +54,6 @@ let secUni = document.getElementById('secUni');
 function printTime() {
     printMinutes();
     printSeconds();
-
 }
 
 function printMinutes() {
@@ -72,7 +69,8 @@ function printSeconds() {
 btnStart.addEventListener('click', () => {
     if (canStart) {
         chronometer.start(printTime);
+
         canStart = false
     }
 }
-);
+)
