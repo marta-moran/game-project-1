@@ -44,9 +44,7 @@ h1 {
     font-size: 30px;
 }
 
-.characters>div p:nth-child(2) {
-    margin-left: 30px
-}
+
 
 .select {
     text-align: center;
