@@ -30,6 +30,9 @@ const game = {
     endGameTimer: 11,
     flowersCounter: 0,
     platformsCounter: 0,
+
+    audio: new Audio("../audio/audio.mp3"),
+
     lifes: document.querySelectorAll('.life'),
     canvasSize: {
         w: 700,
@@ -60,6 +63,7 @@ const game = {
     start() {
         this.createAll()
         this.interval = setInterval(() => {
+            this.audio.play()
             this.framesIndex++
             this.clear()
             this.clearObstacles(this.platforms)
@@ -213,14 +217,14 @@ const game = {
     },
 
     addDifficulty() {
-        if (this.platformsCounter < 5 && this.framesIndex % 160 === 0) {
+        if (this.platformsCounter < 10 && this.framesIndex % 160 === 0) {
             this.generateObstacles()
         }
-        if (this.platformsCounter < 10 && this.framesIndex % 140 === 0) {
+        if (this.platformsCounter < 30 && this.framesIndex % 140 === 0) {
             this.platform.velY = 2
             this.generateObstacles()
         }
-        if (this.platformsCounter >= 10 && this.framesIndex % 120 === 0) {
+        if (this.platformsCounter >= 30 && this.framesIndex % 120 === 0) {
             this.platform.velY = 5
             this.generateObstacles()
         }

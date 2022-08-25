@@ -15,13 +15,13 @@ for (let i = 0; i < imgs.length; i++) {
 
         switch (localStorage.getItem('character')) {
             case "../img/cat.png":
-                select.textContent = "Has cogido a gatito"
+                select.textContent = "Has cogido a Zarpitas"
                 break;
             case "../img/hamster.png":
-                select.textContent = "Has cogido a hamtaro"
+                select.textContent = "Has cogido a Hamtaro"
                 break;
             case "../img/conejito.png":
-                select.textContent = "Has cogido a conejito"
+                select.textContent = "Has cogido a Nevado"
                 break;
         }
     })
