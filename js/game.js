@@ -82,14 +82,6 @@ const game = {
             if (this.player.isFalling) {
                 this.player.restart()
                 this.removeLifes()
-                /* if (this.framesIndex % 6 === 0) {
-                     this.player.width = 0
-                     this.player.height = 0
-                     
-                 } else {
-                     this.player.width = 70
-                     this.player.height = 70
-                 }*/
             }
 
             if (this.framesIndex % 200 === 0) {
